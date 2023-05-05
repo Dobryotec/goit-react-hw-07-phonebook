@@ -3,10 +3,19 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useEffect } from 'react';
 import { fetchAllContacts, delContact } from '../../redux/thunks';
 import { ClipLoader } from 'react-spinners';
+import {
+  selectContacts,
+  selectError,
+  selectFilter,
+  selectIsLoading,
+} from 'redux/selectors';
 
 const ContactList = () => {
-  const { items, isLoading, error } = useSelector(state => state.contacts);
-  const filter = useSelector(state => state.filter);
+  const contacts = useSelector(selectContacts);
+  const isLoading = useSelector(selectIsLoading);
+  const error = useSelector(selectError);
+  const filter = useSelector(selectFilter);
+
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -14,7 +23,7 @@ const ContactList = () => {
   }, [dispatch]);
 
   const filtredContacts = () => {
-    return items.filter(
+    return contacts.filter(
       contact =>
         filter &&
         contact.name.toLowerCase().includes(filter.toLocaleLowerCase())
@@ -41,7 +50,7 @@ const ContactList = () => {
       {isLoading && <ClipLoader color="blue" />}
       {error && <div>{error}</div>}
       {!filter
-        ? items.map(({ id, name, phone }, index) => {
+        ? contacts.map(({ id, name, phone }, index) => {
             return renderContacts(id, name, phone, index);
           })
         : filtredContacts().map(({ id, name, phone }, index) => {

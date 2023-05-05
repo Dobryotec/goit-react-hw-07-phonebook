@@ -4,6 +4,7 @@ import css from './ContactForm.module.css';
 import { useDispatch, useSelector } from 'react-redux';
 import { addNewContact } from '../../redux/thunks';
 import toast, { Toaster } from 'react-hot-toast';
+import { selectContacts } from 'redux/selectors';
 
 const notify = () =>
   toast.success('Successfully created!', {
@@ -18,7 +19,7 @@ export default function ContactForm() {
   const [name, setName] = useState('');
   const [number, setNumber] = useState('');
   const dispatch = useDispatch();
-  const contacts = useSelector(state => state.contacts.items);
+  const contacts = useSelector(selectContacts);
 
   const handleSubmit = e => {
     e.preventDefault();
