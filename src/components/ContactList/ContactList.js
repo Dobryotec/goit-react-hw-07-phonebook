@@ -23,10 +23,8 @@ const ContactList = () => {
   }, [dispatch]);
 
   const filtredContacts = () => {
-    return contacts.filter(
-      contact =>
-        filter &&
-        contact.name.toLowerCase().includes(filter.toLocaleLowerCase())
+    return contacts.filter(contact =>
+      contact.name.toLowerCase().includes(filter.toLocaleLowerCase())
     );
   };
 
@@ -49,13 +47,9 @@ const ContactList = () => {
     <ul className={css.list}>
       {isLoading && <ClipLoader color="blue" />}
       {error && <div>{error}</div>}
-      {!filter
-        ? contacts.map(({ id, name, phone }, index) => {
-            return renderContacts(id, name, phone, index);
-          })
-        : filtredContacts().map(({ id, name, phone }, index) => {
-            return renderContacts(id, name, phone, index);
-          })}
+      {filtredContacts().map(({ id, name, phone }, index) => {
+        return renderContacts(id, name, phone, index);
+      })}
     </ul>
   );
 };
